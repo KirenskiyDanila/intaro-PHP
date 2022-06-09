@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/rest_yandex",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Danila",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "ext-json": "*"
+  }
+}
