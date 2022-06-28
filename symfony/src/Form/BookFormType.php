@@ -25,13 +25,15 @@ class BookFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control mb-3',
                     'placeholder' => 'Введите название книги...'
-                ]
+                ],
+                'label' => 'Название'
             ])
             ->add('author', TextType::class, [
                 'attr' => [
                     'class' => 'form-control mb-3',
                     'placeholder' => 'Введите автора книги...'
-                ]
+                ],
+                'label' => 'Автор'
             ])
             ->add('cover', FileType::class, [
                 'label' => 'Обложка (jpg или png файл)',
