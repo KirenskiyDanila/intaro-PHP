@@ -2,62 +2,84 @@
 
 namespace App\Form;
 
-use App\Entity\User;
-use Doctrine\DBAL\Types\TextType;
+use App\Entity\Book;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use \Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\WeekType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
 
-class RegistrationFormType extends AbstractType
+class BookFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
+            ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control mb-3',
-                    'placeholder' => 'Введите вашу электронную почту...'
-                ]
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-
-                'mapped' => false,
-                'attr' => [
-                    'class' => 'form-input-check',
-                    'checked' => '',
-                    'autocomplete' => 'off'
+                    'placeholder' => 'Введите название книги...'
                 ],
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+                'label' => 'Название'
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-
-                'mapped' => false,
+            ->add('author', TextType::class, [
                 'attr' => [
-                    'autocomplete' => 'new-password',
                     'class' => 'form-control mb-3',
-                    'placeholder' => 'Введите ваш пароль...'],
+                    'placeholder' => 'Введите автора книги...'
+                ],
+                'label' => 'Автор'
+            ])
+            ->add('cover', FileType::class, [
+                'label' => 'Обложка (jpg или png файл)',
+
+                'mapped' => false,
+
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+
+
+                'required' => false,
+
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                    new File([
+                        'maxSize' => '5120k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Пожалуйста, загрузите jpg или png документ.',
+                    ])
+                ],
+            ])
+            ->add('file',  FileType::class, [
+                'label' => 'Книга (PDF файл)',
+
+                'mapped' => false,
+
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+
+
+                'required' => false,
+
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5120k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Пожалуйста, загрузите PDF документ.',
+                    ])
                 ],
             ])
         ;
@@ -66,7 +88,7 @@ class RegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Book::class,
         ]);
     }
 }
