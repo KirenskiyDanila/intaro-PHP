@@ -71,7 +71,7 @@ function check() {
 
         let flag = true;
 
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/.test(email)) {
                 document.getElementById('email').style.borderColor = 'green';
         } else {
                 document.getElementById('email').style.borderColor = 'red';
